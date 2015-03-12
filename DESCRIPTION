@@ -1,0 +1,11 @@
+Package: WRS2
+Type: Package
+Title: An Experimental Refactor of R. R. Wilcox' Robust Statistics Functions "WRS"
+Version: 0.1
+Date: 2015-03-12
+Author: Rand R. Wilcox, Felix Schönbrodt, Masahiro Kanai
+Maintainer: Masahiro Kanai <m.kanai@keio.jp>
+Description: This package is an experimental refactored version of the "WRS" package, which implements R. R. Wilcox' the robust statistics functions.
+License: GPL (>= 2)
+Imports: Rcpp (>= 0.11.3), RcppArmadillo(>= 0.4.400.0)
+LinkingTo: Rcpp, RcppArmadillo
