@@ -38,6 +38,24 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
+// hdseb
+double hdseb(NumericVector x, double q = 0.5, int nboot = 100, int cores = 1);
+RcppExport SEXP WRS2_hdseb(SEXP xSEXP, SEXP qSEXP, SEXP nbootSEXP, SEXP coresSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP );
+        Rcpp::traits::input_parameter< double >::type q(qSEXP );
+        Rcpp::traits::input_parameter< int >::type nboot(nbootSEXP );
+        Rcpp::traits::input_parameter< int >::type cores(coresSEXP );
+        double __result = hdseb(x, q, nboot, cores);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // hdpb
 List hdpb(NumericVector x, double q, double alpha = 0.05, int nboot = 2000, double nv = 0, int cores = 1);
 RcppExport SEXP WRS2_hdpb(SEXP xSEXP, SEXP qSEXP, SEXP alphaSEXP, SEXP nbootSEXP, SEXP nvSEXP, SEXP coresSEXP) {

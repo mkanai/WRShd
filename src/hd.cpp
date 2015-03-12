@@ -83,6 +83,36 @@ double hd(arma::vec x, double q, int cores = 1) {
     return output;
 }
 
+
+//' Compute a bootstrap standard error of the Harrell-Davis estimate of the qth quantile
+//' 
+//' @param x a numeric \code{vector}
+//' @param q a desired quantile
+//' @param nboot a number of bootstraps
+//' @param cores a number of cores used
+//' @return the standard error of the Harrell-Davis estimate of the qth quantile
+// [[Rcpp::export]]
+double hdseb(NumericVector x, double q = 0.5, int nboot = 100, int cores = 1) {
+    #ifdef _OPENMP
+    if (cores > 0) {
+        omp_set_num_threads(cores);
+    }
+    #endif
+    
+    int n = x.size();
+    NumericVector bsample = sample(x, n * nboot, TRUE);
+    arma::mat data = arma::mat(bsample.begin(), nboot, n, FALSE);
+    
+    arma::vec bvec(nboot);    
+    #pragma omp parallel
+    for (int i = 0; i < nboot; i++) {
+        bvec(i) = hd(data.row(i).t(), q);
+    }
+    #pragma omp barrier
+    
+    return sqrt(var(bvec));
+}
+
 //' Compute a bootstrap confidence interval for the Harrell-Davis estimate of the qth quantile
 //' 
 //' @param x a numeric \code{vector}

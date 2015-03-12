@@ -19,6 +19,17 @@ hd <- function(x, q, cores = 1L) {
     .Call('WRS2_hd', PACKAGE = 'WRS2', x, q, cores)
 }
 
+#' Compute a bootstrap standard error of the Harrell-Davis estimate of the qth quantile
+#' 
+#' @param x a numeric \code{vector}
+#' @param q a desired quantile
+#' @param nboot a number of bootstraps
+#' @param cores a number of cores used
+#' @return the standard error of the Harrell-Davis estimate of the qth quantile
+hdseb <- function(x, q = 0.5, nboot = 100L, cores = 1L) {
+    .Call('WRS2_hdseb', PACKAGE = 'WRS2', x, q, nboot, cores)
+}
+
 #' Compute a bootstrap confidence interval for the Harrell-Davis estimate of the qth quantile
 #' 
 #' @param x a numeric \code{vector}
