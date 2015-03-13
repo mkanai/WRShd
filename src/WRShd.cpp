@@ -27,13 +27,13 @@ NumericVector na_omit(NumericVector x) {
     return Rcpp::wrap(ret);
 }
 
-NumericVector sample(NumericVector x, int size, bool replace = 1, NumericVector prob = NumericVector::create()) {
+NumericVector sample(NumericVector x, int size, bool replace = true, NumericVector prob = NumericVector::create()) {
     return Rcpp::RcppArmadillo::sample(x, size, replace, prob);
 }
 
 //' Compute the Harrell-Davis estimate of the qth quantile
 // [[Rcpp::export(".hd")]]
-double hd(NumericVector x, double q = 0.5, bool na_rm = 1, int cores = 1) {
+double hd(NumericVector x, double q = 0.5, bool na_rm = true, int cores = 1) {
     #ifdef _OPENMP
     if (cores > 0) {
         omp_set_num_threads(cores);
@@ -56,7 +56,7 @@ double hd(NumericVector x, double q = 0.5, bool na_rm = 1, int cores = 1) {
     return(output);
 }
 
-double hd(arma::vec x, double q, bool na_rm = TRUE, int cores = 1) {
+double hd(arma::vec x, double q, bool na_rm = true, int cores = 1) {
     int n = x.n_elem;
     double m1 = (n + 1.0) * q, m2 = (n + 1.0) * (1.0 - q);
     double output = 0.0;
@@ -82,8 +82,8 @@ double hdseb(NumericVector x, double q = 0.5, int nboot = 100, int cores = 1) {
     #endif
     
     int n = x.size();
-    NumericVector bsample = sample(x, n * nboot, TRUE);
-    arma::mat data = arma::mat(bsample.begin(), nboot, n, FALSE);
+    NumericVector bsample = sample(x, n * nboot, true);
+    arma::mat data = arma::mat(bsample.begin(), nboot, n, false);
     
     arma::vec bvec(nboot);    
     #pragma omp parallel for
@@ -98,7 +98,7 @@ double hdseb(NumericVector x, double q = 0.5, int nboot = 100, int cores = 1) {
 
 //' Compute a 1-alpha confidence for the Harrell-Davis estimate of the qth quantile
 // [[Rcpp::export(".hdci")]]
-List hdci(NumericVector x, double q = 0.5, int nboot = 100, bool pr = 1, int cores = 1) {
+List hdci(NumericVector x, double q = 0.5, int nboot = 100, bool pr = true, int cores = 1) {
     NumericVector xx = na_omit(x);
     int n = xx.size();
     if (pr && sum(duplicated(xx)) > 0) {Rprintf("Duplicate values detected; use hdpb\n");}
@@ -135,8 +135,8 @@ List hdpb(NumericVector x, double q = 0.5, double alpha = 0.05, int nboot = 2000
 
     NumericVector xx = na_omit(x);
     int n = xx.size();
-    NumericVector bsample = sample(xx, n * nboot, TRUE);
-    arma::mat data = arma::mat(bsample.begin(), nboot, n, FALSE);
+    NumericVector bsample = sample(xx, n * nboot, true);
+    arma::mat data = arma::mat(bsample.begin(), nboot, n, false);
 
     int nv_ex = 0, nv_eq = 0;
     arma::vec bvec(nboot);
@@ -175,10 +175,10 @@ List qcom_sub(NumericVector x, NumericVector y, double q, double alpha = 0.05, i
     NumericVector yy = na_omit(y);
     int nx = xx.size();
     int ny = yy.size();
-    NumericVector bsamplex = sample(xx, nx * nboot, TRUE);
-    NumericVector bsampley = sample(yy, ny * nboot, TRUE);
-    arma::mat datax = arma::mat(bsamplex.begin(), nboot, nx, FALSE);
-    arma::mat datay = arma::mat(bsampley.begin(), nboot, ny, FALSE);
+    NumericVector bsamplex = sample(xx, nx * nboot, true);
+    NumericVector bsampley = sample(yy, ny * nboot, true);
+    arma::mat datax = arma::mat(bsamplex.begin(), nboot, nx, false);
+    arma::mat datay = arma::mat(bsampley.begin(), nboot, ny, false);
 
     int z_ex = 0, z_eq = 0;    
     arma::vec bvec(nboot);

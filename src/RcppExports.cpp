@@ -22,7 +22,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // hd
-double hd(NumericVector x, double q = 0.5, bool na_rm = 1, int cores = 1);
+double hd(NumericVector x, double q = 0.5, bool na_rm = true, int cores = 1);
 RcppExport SEXP WRShd_hd(SEXP xSEXP, SEXP qSEXP, SEXP na_rmSEXP, SEXP coresSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
@@ -58,7 +58,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // hdci
-List hdci(NumericVector x, double q = 0.5, int nboot = 100, bool pr = 1, int cores = 1);
+List hdci(NumericVector x, double q = 0.5, int nboot = 100, bool pr = true, int cores = 1);
 RcppExport SEXP WRShd_hdci(SEXP xSEXP, SEXP qSEXP, SEXP nbootSEXP, SEXP prSEXP, SEXP coresSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
