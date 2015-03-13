@@ -7,8 +7,8 @@
 }
 
 #' Compute the Harrell-Davis estimate of the qth quantile
-.hd <- function(x, q = 0.5, cores = 1L) {
-    .Call('WRShd_hd', PACKAGE = 'WRShd', x, q, cores)
+.hd <- function(x, q = 0.5, na_rm, cores = 1L) {
+    .Call('WRShd_hd', PACKAGE = 'WRShd', x, q, na_rm, cores)
 }
 
 #' Compute a bootstrap standard error of the Harrell-Davis estimate of the qth quantile
@@ -16,7 +16,12 @@
     .Call('WRShd_hdseb', PACKAGE = 'WRShd', x, q, nboot, cores)
 }
 
-#' Compute a bootstrap confidence interval for the Harrell-Davis estimate of the qth quantile
+#' Compute a 1-alpha confidence for the Harrell-Davis estimate of the qth quantile
+.hdci <- function(x, q = 0.5, nboot = 100L, pr, cores = 1L) {
+    .Call('WRShd_hdci', PACKAGE = 'WRShd', x, q, nboot, pr, cores)
+}
+
+#' Compute a bootstrap 1-alpha confidence for the Harrell-Davis estimate of the qth quantile
 .hdpb <- function(x, q = 0.5, alpha = 0.05, nboot = 2000L, nv = 0, cores = 1L) {
     .Call('WRShd_hdpb', PACKAGE = 'WRShd', x, q, alpha, nboot, nv, cores)
 }

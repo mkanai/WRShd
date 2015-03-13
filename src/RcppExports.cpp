@@ -22,16 +22,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // hd
-double hd(NumericVector x, double q = 0.5, int cores = 1);
-RcppExport SEXP WRShd_hd(SEXP xSEXP, SEXP qSEXP, SEXP coresSEXP) {
+double hd(NumericVector x, double q = 0.5, int na_rm = TRUE, int cores = 1);
+RcppExport SEXP WRShd_hd(SEXP xSEXP, SEXP qSEXP, SEXP na_rmSEXP, SEXP coresSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP );
         Rcpp::traits::input_parameter< double >::type q(qSEXP );
+        Rcpp::traits::input_parameter< int >::type na_rm(na_rmSEXP );
         Rcpp::traits::input_parameter< int >::type cores(coresSEXP );
-        double __result = hd(x, q, cores);
+        double __result = hd(x, q, na_rm, cores);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
@@ -50,6 +51,25 @@ BEGIN_RCPP
         Rcpp::traits::input_parameter< int >::type nboot(nbootSEXP );
         Rcpp::traits::input_parameter< int >::type cores(coresSEXP );
         double __result = hdseb(x, q, nboot, cores);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// hdci
+List hdci(NumericVector x, double q = 0.5, int nboot = 100, int pr = TRUE, int cores = 1);
+RcppExport SEXP WRShd_hdci(SEXP xSEXP, SEXP qSEXP, SEXP nbootSEXP, SEXP prSEXP, SEXP coresSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP );
+        Rcpp::traits::input_parameter< double >::type q(qSEXP );
+        Rcpp::traits::input_parameter< int >::type nboot(nbootSEXP );
+        Rcpp::traits::input_parameter< int >::type pr(prSEXP );
+        Rcpp::traits::input_parameter< int >::type cores(coresSEXP );
+        List __result = hdci(x, q, nboot, pr, cores);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

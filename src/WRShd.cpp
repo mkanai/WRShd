@@ -11,6 +11,7 @@
 using namespace Rcpp;
 using namespace arma;
 
+
 //' Remove missing numeric values in objects
 // [[Rcpp::export(".na.omit")]]
 NumericVector na_omit(NumericVector x) {
@@ -22,7 +23,6 @@ NumericVector na_omit(NumericVector x) {
         if (x[i] != NA_REAL) {ret[k++] = x[i];}
     }
 
-    
     ret.resize(k);
     return Rcpp::wrap(ret);
 }
@@ -33,14 +33,14 @@ NumericVector sample(NumericVector x, int size, int replace = FALSE, NumericVect
 
 //' Compute the Harrell-Davis estimate of the qth quantile
 // [[Rcpp::export(".hd")]]
-double hd(NumericVector x, double q = 0.5, int cores = 1) {
+double hd(NumericVector x, double q = 0.5, int na_rm = TRUE, int cores = 1) {
     #ifdef _OPENMP
     if (cores > 0) {
         omp_set_num_threads(cores);
     }
     #endif
 
-    NumericVector xx = na_omit(x);
+    NumericVector xx = na_rm ? na_omit(x) : x;
     int n = xx.size();
     double m1 = (n + 1.0) * q, m2 = (n + 1.0) * (1.0 - q);
     double output = 0.0;
@@ -57,18 +57,11 @@ double hd(NumericVector x, double q = 0.5, int cores = 1) {
 }
 
 double hd(arma::vec x, double q, int cores = 1) {
-    #ifdef _OPENMP
-    if (cores > 0) {
-        omp_set_num_threads(cores);
-    }
-    #endif
-
     int n = x.n_elem;
     double m1 = (n + 1.0) * q, m2 = (n + 1.0) * (1.0 - q);
     double output = 0.0;
     arma::vec xsort = arma::sort(x);
 
-    #pragma omp parallel for reduction(+:output)
     for(int i = 1; i <= n; i++) {
         output += (R::pbeta(i * 1.0 / n, m1, m2, 1, 0) - 
                    R::pbeta((i - 1.0) / n, m1, m2, 1, 0)) * 
@@ -77,6 +70,7 @@ double hd(arma::vec x, double q, int cores = 1) {
 
     return output;
 }
+
 
 //' Compute a bootstrap standard error of the Harrell-Davis estimate of the qth quantile
 // [[Rcpp::export(".hdseb")]]
@@ -92,7 +86,7 @@ double hdseb(NumericVector x, double q = 0.5, int nboot = 100, int cores = 1) {
     arma::mat data = arma::mat(bsample.begin(), nboot, n, FALSE);
     
     arma::vec bvec(nboot);    
-    #pragma omp parallel
+    #pragma omp parallel for
     for (int i = 0; i < nboot; i++) {
         bvec(i) = hd(data.row(i).t(), q);
     }
@@ -101,7 +95,36 @@ double hdseb(NumericVector x, double q = 0.5, int nboot = 100, int cores = 1) {
     return sqrt(var(bvec));
 }
 
-//' Compute a bootstrap confidence interval for the Harrell-Davis estimate of the qth quantile
+
+//' Compute a 1-alpha confidence for the Harrell-Davis estimate of the qth quantile
+// [[Rcpp::export(".hdci")]]
+List hdci(NumericVector x, double q = 0.5, int nboot = 100, int pr = TRUE, int cores = 1) {
+    NumericVector xx = na_omit(x);
+    int n = xx.size();
+    if (pr && sum(duplicated(xx)) > 0) {puts("Duplicate values detected; use hdpb\n");}
+    double se = hdseb(x, q, nboot, cores);
+    
+    double crit = 0.5064 / pow(n, 0.25) + 1.96;;
+    if ((q <= 0.2 || q >= 0.8) && n <= 20) {
+        crit = (-6.23) / n + 5.01;
+    }
+    if ((q <= 0.1 || q >= 0.9) && n <= 40) {
+        crit = 36.2 / n + 1.31;
+    }
+    if (n <= 10){
+        puts("The number of observations is less than 11.");
+        puts("Accurate critical values have not been determined for this case.");
+    }
+    
+    double low = hd(xx, q, cores) - crit*se;
+    double hi = hd(xx, q, cores) + crit*se;
+    return List::create(Named("ci") = NumericVector::create(low, hi),
+                        Named("crit") = crit,
+                        Named("se") = se
+                       );
+}
+
+//' Compute a bootstrap 1-alpha confidence for the Harrell-Davis estimate of the qth quantile
 // [[Rcpp::export(".hdpb")]]
 List hdpb(NumericVector x, double q = 0.5, double alpha = 0.05, int nboot = 2000, double nv = 0, int cores = 1) {
     #ifdef _OPENMP
@@ -131,7 +154,7 @@ List hdpb(NumericVector x, double q = 0.5, double alpha = 0.05, int nboot = 2000
     int up = nboot - low - 1;
     double pv = 1.0 * nv_ex / nboot + 0.5 * nv_eq / nboot;
     pv = 2 * std::min(pv, 1 - pv);
-    double estimate = hd(xx, q);
+    double estimate = hd(xx, q, cores);
     return List::create(Named("ci") = NumericVector::create(bvecsort[low], bvecsort[up]),
                         Named("n") = n,
                         Named("estimate") = estimate,
@@ -176,8 +199,8 @@ List qcom_sub(NumericVector x, NumericVector y, double q, double alpha = 0.05, i
     double pv = 1.0 * z_ex / nboot + 0.5 * z_eq / nboot;
     pv = 2 * std::min(pv, 1 - pv);
     double se = var(bvec);
-    return List::create(Named("est.1") = hd(xx, q),
-                        Named("est.2") = hd(yy, q),
+    return List::create(Named("est.1") = hd(xx, q, cores),
+                        Named("est.2") = hd(yy, q, cores),
                         Named("ci") = NumericVector::create(bvecsort[low], bvecsort[up]),
                         Named("p.value") = pv,
                         Named("sq.se") = se,
