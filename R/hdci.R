@@ -6,6 +6,7 @@
 #' @param nboot a number of bootstraps
 #' @param SEED a logical indicating whether the seed should be set
 #' @param pr a logical indicating whether
+#' @param cores a number of cores used for computation
 #' @return the 1-\code{alpha} confidence for the Harrell-Davis estimate of the qth quantile
 #' @export
 

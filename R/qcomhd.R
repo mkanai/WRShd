@@ -9,6 +9,7 @@
 #' @param xlab
 #' @param ylab
 #' @param alpha a significance level
+#' @param cores a number of cores used for computation
 #' @export
 
 qcomhd <- function(x, y, q = c(.1, .25, .5, .75, .9), nboot = 2000, plotit = TRUE, SEED = TRUE, xlab = "Group 1", ylab = "Est.1-Est.2", alpha = .05, cores = 1) {

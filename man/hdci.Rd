@@ -18,6 +18,8 @@ hdci(x, q = 0.5, alpha = 0.05, nboot = 100, SEED = TRUE, pr = TRUE,
 \item{SEED}{a logical indicating whether the seed should be set}
 
 \item{pr}{a logical indicating whether}
+
+\item{cores}{a number of cores used for computation}
 }
 \value{
 the 1-\code{alpha} confidence for the Harrell-Davis estimate of the qth quantile

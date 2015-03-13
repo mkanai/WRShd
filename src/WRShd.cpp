@@ -13,21 +13,15 @@ using namespace arma;
 
 //' Remove missing numeric values in objects
 // [[Rcpp::export(".na.omit")]]
-NumericVector na_omit(NumericVector x, int cores = 1) {
-    #ifdef _OPENMP
-    if (cores > 0) {
-        omp_set_num_threads(cores);
-    }
-    #endif
+NumericVector na_omit(NumericVector x) {
     int n = x.size();
     std::vector<double> ret(n);
 
     int k = 0;
-    #pragma omp parallel for reduction(+:k)    
     for (int i = 0; i < n; i++) {
         if (x[i] != NA_REAL) {ret[k++] = x[i];}
     }
-    #pragma omp barrier
+
     
     ret.resize(k);
     return Rcpp::wrap(ret);
@@ -39,14 +33,14 @@ NumericVector sample(NumericVector x, int size, int replace = FALSE, NumericVect
 
 //' Compute the Harrell-Davis estimate of the qth quantile
 // [[Rcpp::export(".hd")]]
-double hd(NumericVector x, double q = 0.5, int na_rm = TRUE, int cores = 1) {
+double hd(NumericVector x, double q = 0.5, int cores = 1) {
     #ifdef _OPENMP
     if (cores > 0) {
         omp_set_num_threads(cores);
     }
     #endif
 
-    NumericVector xx = na_rm ? na_omit(x, cores) : x;
+    NumericVector xx = na_omit(x);
     int n = xx.size();
     double m1 = (n + 1.0) * q, m2 = (n + 1.0) * (1.0 - q);
     double output = 0.0;
@@ -116,7 +110,7 @@ List hdpb(NumericVector x, double q = 0.5, double alpha = 0.05, int nboot = 2000
     }
     #endif
 
-    NumericVector xx = na_omit(x, cores);
+    NumericVector xx = na_omit(x);
     int n = xx.size();
     NumericVector bsample = sample(xx, n * nboot, TRUE);
     arma::mat data = arma::mat(bsample.begin(), nboot, n, FALSE);
@@ -154,8 +148,8 @@ List qcom_sub(NumericVector x, NumericVector y, double q, double alpha = 0.05, i
     }
     #endif
     
-    NumericVector xx = na_omit(x, cores);
-    NumericVector yy = na_omit(y, cores);
+    NumericVector xx = na_omit(x);
+    NumericVector yy = na_omit(y);
     int nx = xx.size();
     int ny = yy.size();
     NumericVector bsamplex = sample(xx, nx * nboot, TRUE);
@@ -178,13 +172,13 @@ List qcom_sub(NumericVector x, NumericVector y, double q, double alpha = 0.05, i
 
     arma::vec bvecsort = arma::sort(bvec);
     int low = round((alpha / 2) * nboot);
-    int up = nboot - low - 1;
+    int up = nboot - low - 2;
     double pv = 1.0 * z_ex / nboot + 0.5 * z_eq / nboot;
     pv = 2 * std::min(pv, 1 - pv);
     double se = var(bvec);
     return List::create(Named("est.1") = hd(xx, q),
                         Named("est.2") = hd(yy, q),
-                        Named("ci") = NumericVector::create(bvec[low], bvec[up]),
+                        Named("ci") = NumericVector::create(bvecsort[low], bvecsort[up]),
                         Named("p.value") = pv,
                         Named("sq.se") = se,
                         Named("n1") = nx,

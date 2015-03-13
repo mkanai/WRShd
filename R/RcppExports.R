@@ -2,17 +2,13 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #' Remove missing numeric values in objects
-#' 
-#' @param x a numeric \code{vector}
-#' @param cores a number of cores used
-#' @return a numeric vector w/o NAs
-.na.omit <- function(x, cores = 1L) {
-    .Call('WRShd_na_omit', PACKAGE = 'WRShd', x, cores)
+.na.omit <- function(x) {
+    .Call('WRShd_na_omit', PACKAGE = 'WRShd', x)
 }
 
 #' Compute the Harrell-Davis estimate of the qth quantile
-.hd <- function(x, q = 0.5, na_rm, cores = 1L) {
-    .Call('WRShd_hd', PACKAGE = 'WRShd', x, q, na_rm, cores)
+.hd <- function(x, q = 0.5, cores = 1L) {
+    .Call('WRShd_hd', PACKAGE = 'WRShd', x, q, cores)
 }
 
 #' Compute a bootstrap standard error of the Harrell-Davis estimate of the qth quantile

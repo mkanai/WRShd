@@ -10,7 +10,7 @@ hd(x, q = 0.5, na.rm = TRUE, cores = 1)
 
 \item{q}{a desired quantile}
 
-\item{na.rm}{a logical indicating whether missing values should be removed}
+\item{na.rm}{a logical indicating whether missing values should be removed (should be TRUE)}
 
 \item{cores}{a number of cores used for computation}
 }

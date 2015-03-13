@@ -11,6 +11,9 @@ Description: This package is an experimental refactored version of the "WRS"
     The package currently focuses on implementing functions related to the
     Harrell-Davis estimator.
 License: GPL (>= 2)
+Suggests:
+    testthat,
+    WRS
 Imports:
     Rcpp (>= 0.11.3),
     RcppArmadillo(>= 0.4.400.0)
