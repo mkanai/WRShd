@@ -12,18 +12,23 @@ using namespace Rcpp;
 using namespace arma;
 
 //' Remove missing numeric values in objects
-//' 
-//' @param x a numeric \code{vector}
-//' @return a numeric vector w/o NAs
 // [[Rcpp::export(".na.omit")]]
-NumericVector na_omit(NumericVector x) {
+NumericVector na_omit(NumericVector x, int cores = 1) {
+    #ifdef _OPENMP
+    if (cores > 0) {
+        omp_set_num_threads(cores);
+    }
+    #endif
     int n = x.size();
     std::vector<double> ret(n);
 
     int k = 0;
+    #pragma omp parallel for reduction(+:k)    
     for (int i = 0; i < n; i++) {
         if (x[i] != NA_REAL) {ret[k++] = x[i];}
     }
+    #pragma omp barrier
+    
     ret.resize(k);
     return Rcpp::wrap(ret);
 }
@@ -33,23 +38,19 @@ NumericVector sample(NumericVector x, int size, int replace = FALSE, NumericVect
 }
 
 //' Compute the Harrell-Davis estimate of the qth quantile
-//' 
-//' @param x a numeric \code{vector}
-//' @param q a desired quantile
-//' @param cores a number of cores used
-//' @return the Harrell-Davis estimate of the \code{q}-th quantile of \code{x}
-// [[Rcpp::export]]
-double hd(NumericVector x, double q, int cores = 1) {
+// [[Rcpp::export(".hd")]]
+double hd(NumericVector x, double q = 0.5, int na_rm = TRUE, int cores = 1) {
     #ifdef _OPENMP
     if (cores > 0) {
         omp_set_num_threads(cores);
     }
     #endif
 
-    int n = x.size();
+    NumericVector xx = na_rm ? na_omit(x, cores) : x;
+    int n = xx.size();
     double m1 = (n + 1.0) * q, m2 = (n + 1.0) * (1.0 - q);
     double output = 0.0;
-    arma::vec xsort = arma::sort(as<arma::vec>(x));
+    arma::vec xsort = arma::sort(as<arma::vec>(xx));
     
     #pragma omp parallel for reduction(+:output)
     for(int i = 1; i <= n; i++){
@@ -83,15 +84,8 @@ double hd(arma::vec x, double q, int cores = 1) {
     return output;
 }
 
-
 //' Compute a bootstrap standard error of the Harrell-Davis estimate of the qth quantile
-//' 
-//' @param x a numeric \code{vector}
-//' @param q a desired quantile
-//' @param nboot a number of bootstraps
-//' @param cores a number of cores used
-//' @return the standard error of the Harrell-Davis estimate of the qth quantile
-// [[Rcpp::export]]
+// [[Rcpp::export(".hdseb")]]
 double hdseb(NumericVector x, double q = 0.5, int nboot = 100, int cores = 1) {
     #ifdef _OPENMP
     if (cores > 0) {
@@ -114,23 +108,15 @@ double hdseb(NumericVector x, double q = 0.5, int nboot = 100, int cores = 1) {
 }
 
 //' Compute a bootstrap confidence interval for the Harrell-Davis estimate of the qth quantile
-//' 
-//' @param x a numeric \code{vector}
-//' @param q a desired quantile
-//' @param alpha a significance level
-//' @param nboot a number of bootstraps
-//' @param nv a null-value when computing a p-value
-//' @param cores a number of cores used
-//' @return the confidence inteval
-// [[Rcpp::export]]
-List hdpb(NumericVector x, double q, double alpha = 0.05, int nboot = 2000, double nv = 0, int cores = 1) {
+// [[Rcpp::export(".hdpb")]]
+List hdpb(NumericVector x, double q = 0.5, double alpha = 0.05, int nboot = 2000, double nv = 0, int cores = 1) {
     #ifdef _OPENMP
     if (cores > 0) {
         omp_set_num_threads(cores);
     }
     #endif
 
-    NumericVector xx = na_omit(x);
+    NumericVector xx = na_omit(x, cores);
     int n = xx.size();
     NumericVector bsample = sample(xx, n * nboot, TRUE);
     arma::mat data = arma::mat(bsample.begin(), nboot, n, FALSE);
@@ -168,8 +154,8 @@ List qcom_sub(NumericVector x, NumericVector y, double q, double alpha = 0.05, i
     }
     #endif
     
-    NumericVector xx = na_omit(x);
-    NumericVector yy = na_omit(y);
+    NumericVector xx = na_omit(x, cores);
+    NumericVector yy = na_omit(y, cores);
     int nx = xx.size();
     int ny = yy.size();
     NumericVector bsamplex = sample(xx, nx * nboot, TRUE);

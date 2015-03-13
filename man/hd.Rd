@@ -3,17 +3,19 @@
 \alias{hd}
 \title{Compute the Harrell-Davis estimate of the qth quantile}
 \usage{
-hd(x, q, cores = 1L)
+hd(x, q = 0.5, na.rm = TRUE, cores = 1)
 }
 \arguments{
 \item{x}{a numeric \code{vector}}
 
 \item{q}{a desired quantile}
 
-\item{cores}{a number of cores used}
+\item{na.rm}{a logical indicating whether missing values should be removed}
+
+\item{cores}{a number of cores used for computation}
 }
 \value{
-the Harrell-Davis estimate of the \code{q}-th quantile of \code{x}
+the Harrell-Davis estimate of the qth quantile of \code{x}
 }
 \description{
 Compute the Harrell-Davis estimate of the qth quantile

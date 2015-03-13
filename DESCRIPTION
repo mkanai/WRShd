@@ -1,11 +1,17 @@
 Package: WRShd
 Type: Package
-Title: An Experimental Refactor of R. R. Wilcox' Robust Statistics Functions "WRS"
+Title: An Experimental Refactor of the Harrell-Davis Estimate Functions from R.
+    R. Wilcox' Robust Statistics Package "WRS"
 Version: 0.1
 Date: 2015-03-12
-Author: Rand R. Wilcox, Felix Schönbrodt, Masahiro Kanai
+Author: Masahiro Kanai, Rand R. Wilcox, Felix Schönbrodt
 Maintainer: Masahiro Kanai <m.kanai@keio.jp>
-Description: This package is an experimental refactored version of the "WRS" package, which implements R. R. Wilcox' the robust statistics functions.
+Description: This package is an experimental refactored version of the "WRS"
+    package, which implements R. R. Wilcox' the robust statistics functions.
+    The package currently focuses on implementing functions related to the
+    Harrell-Davis estimator.
 License: GPL (>= 2)
-Imports: Rcpp (>= 0.11.3), RcppArmadillo(>= 0.4.400.0)
+Imports:
+    Rcpp (>= 0.11.3),
+    RcppArmadillo(>= 0.4.400.0)
 LinkingTo: Rcpp, RcppArmadillo

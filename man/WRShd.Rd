@@ -5,6 +5,13 @@
 \alias{WRShd-package}
 \title{WRShd}
 \description{
-Experimental refactor of WRS
+An Experimental Refactor of the Harrell-Davis Estimate Functions from R. R. Wilcox' Robust Statistics Package "WRS"
+}
+\author{
+Masahiro Kanai
+
+Rand R. Wilcox
+
+Felix Schönbrodt
 }
 

@@ -7,14 +7,15 @@
 using namespace Rcpp;
 
 // na_omit
-NumericVector na_omit(NumericVector x);
-RcppExport SEXP WRShd_na_omit(SEXP xSEXP) {
+NumericVector na_omit(NumericVector x, int cores = 1);
+RcppExport SEXP WRShd_na_omit(SEXP xSEXP, SEXP coresSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP );
-        NumericVector __result = na_omit(x);
+        Rcpp::traits::input_parameter< int >::type cores(coresSEXP );
+        NumericVector __result = na_omit(x, cores);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
@@ -22,16 +23,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // hd
-double hd(NumericVector x, double q, int cores = 1);
-RcppExport SEXP WRShd_hd(SEXP xSEXP, SEXP qSEXP, SEXP coresSEXP) {
+double hd(NumericVector x, double q = 0.5, int na_rm = TRUE, int cores = 1);
+RcppExport SEXP WRShd_hd(SEXP xSEXP, SEXP qSEXP, SEXP na_rmSEXP, SEXP coresSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP );
         Rcpp::traits::input_parameter< double >::type q(qSEXP );
+        Rcpp::traits::input_parameter< int >::type na_rm(na_rmSEXP );
         Rcpp::traits::input_parameter< int >::type cores(coresSEXP );
-        double __result = hd(x, q, cores);
+        double __result = hd(x, q, na_rm, cores);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
@@ -57,7 +59,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // hdpb
-List hdpb(NumericVector x, double q, double alpha = 0.05, int nboot = 2000, double nv = 0, int cores = 1);
+List hdpb(NumericVector x, double q = 0.5, double alpha = 0.05, int nboot = 2000, double nv = 0, int cores = 1);
 RcppExport SEXP WRShd_hdpb(SEXP xSEXP, SEXP qSEXP, SEXP alphaSEXP, SEXP nbootSEXP, SEXP nvSEXP, SEXP coresSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;

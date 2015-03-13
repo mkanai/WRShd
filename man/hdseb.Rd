@@ -3,7 +3,7 @@
 \alias{hdseb}
 \title{Compute a bootstrap standard error of the Harrell-Davis estimate of the qth quantile}
 \usage{
-hdseb(x, q = 0.5, nboot = 100L, cores = 1L)
+hdseb(x, q = 0.5, nboot = 100, SEED = TRUE, cores = 1)
 }
 \arguments{
 \item{x}{a numeric \code{vector}}
@@ -12,7 +12,9 @@ hdseb(x, q = 0.5, nboot = 100L, cores = 1L)
 
 \item{nboot}{a number of bootstraps}
 
-\item{cores}{a number of cores used}
+\item{SEED}{a logical indicating whether the seed should be set}
+
+\item{cores}{a number of cores used for computation}
 }
 \value{
 the standard error of the Harrell-Davis estimate of the qth quantile

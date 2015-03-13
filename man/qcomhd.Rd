@@ -29,9 +29,4 @@ qcomhd(x, y, q = c(0.1, 0.25, 0.5, 0.75, 0.9), nboot = 2000,
 \description{
 Compare quantiles via the Harrell-Davis estimator
 }
-\author{
-Rand R. Wilcox
-
-Masahiro Kanai
-}
 
