@@ -3,13 +3,11 @@ language: r
 warnings_are_errors: false
 
 r_packages:
-- Rcpp
-- RcppArmadillo
 - testthat
 - parallel
 
 r_github_packages:
-- nicebread/WRS subdir="pkg"
+- nicebread/WRS/pkg
 
 notifications:
   email:
