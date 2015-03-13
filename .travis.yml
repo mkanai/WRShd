@@ -1,0 +1,17 @@
+language: r
+
+warnings_are_errors: true
+
+r_binary_packages:
+- Rcpp
+- RcppArmadillo
+- testthat
+- parallel
+
+r_github_packages:
+- nicebread/WRS
+
+notifications:
+  email:
+    on_success: cani.m.61st@gmail.com
+    on_failure: cani.m.61st@gmail.com
