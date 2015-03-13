@@ -7,7 +7,7 @@
 }
 
 #' Compute the Harrell-Davis estimate of the qth quantile
-.hd <- function(x, q = 0.5, na_rm, cores = 1L) {
+.hd <- function(x, q = 0.5, na_rm = 1L, cores = 1L) {
     .Call('WRShd_hd', PACKAGE = 'WRShd', x, q, na_rm, cores)
 }
 
@@ -17,7 +17,7 @@
 }
 
 #' Compute a 1-alpha confidence for the Harrell-Davis estimate of the qth quantile
-.hdci <- function(x, q = 0.5, nboot = 100L, pr, cores = 1L) {
+.hdci <- function(x, q = 0.5, nboot = 100L, pr = 1L, cores = 1L) {
     .Call('WRShd_hdci', PACKAGE = 'WRShd', x, q, nboot, pr, cores)
 }
 

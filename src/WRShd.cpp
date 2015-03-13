@@ -27,13 +27,13 @@ NumericVector na_omit(NumericVector x) {
     return Rcpp::wrap(ret);
 }
 
-NumericVector sample(NumericVector x, int size, int replace = FALSE, NumericVector prob = NumericVector::create()) {
+NumericVector sample(NumericVector x, int size, bool replace = 1, NumericVector prob = NumericVector::create()) {
     return Rcpp::RcppArmadillo::sample(x, size, replace, prob);
 }
 
 //' Compute the Harrell-Davis estimate of the qth quantile
 // [[Rcpp::export(".hd")]]
-double hd(NumericVector x, double q = 0.5, int na_rm = TRUE, int cores = 1) {
+double hd(NumericVector x, double q = 0.5, bool na_rm = 1, int cores = 1) {
     #ifdef _OPENMP
     if (cores > 0) {
         omp_set_num_threads(cores);
@@ -56,7 +56,7 @@ double hd(NumericVector x, double q = 0.5, int na_rm = TRUE, int cores = 1) {
     return(output);
 }
 
-double hd(arma::vec x, double q, int cores = 1) {
+double hd(arma::vec x, double q, bool na_rm = TRUE, int cores = 1) {
     int n = x.n_elem;
     double m1 = (n + 1.0) * q, m2 = (n + 1.0) * (1.0 - q);
     double output = 0.0;
@@ -98,10 +98,10 @@ double hdseb(NumericVector x, double q = 0.5, int nboot = 100, int cores = 1) {
 
 //' Compute a 1-alpha confidence for the Harrell-Davis estimate of the qth quantile
 // [[Rcpp::export(".hdci")]]
-List hdci(NumericVector x, double q = 0.5, int nboot = 100, int pr = TRUE, int cores = 1) {
+List hdci(NumericVector x, double q = 0.5, int nboot = 100, bool pr = 1, int cores = 1) {
     NumericVector xx = na_omit(x);
     int n = xx.size();
-    if (pr && sum(duplicated(xx)) > 0) {puts("Duplicate values detected; use hdpb\n");}
+    if (pr && sum(duplicated(xx)) > 0) {Rprintf("Duplicate values detected; use hdpb\n");}
     double se = hdseb(x, q, nboot, cores);
     
     double crit = 0.5064 / pow(n, 0.25) + 1.96;;
@@ -112,8 +112,8 @@ List hdci(NumericVector x, double q = 0.5, int nboot = 100, int pr = TRUE, int c
         crit = 36.2 / n + 1.31;
     }
     if (n <= 10){
-        puts("The number of observations is less than 11.");
-        puts("Accurate critical values have not been determined for this case.");
+        Rprintf("The number of observations is less than 11.");
+        Rprintf("Accurate critical values have not been determined for this case.");
     }
     
     double low = hd(xx, q, cores) - crit*se;

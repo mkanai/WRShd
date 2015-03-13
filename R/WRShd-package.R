@@ -7,4 +7,5 @@
 #' @author Rand R. Wilcox
 #' @author Felix Schönbrodt
 #' @import Rcpp RcppArmadillo
+#' @useDynLib WRShd
 NULL

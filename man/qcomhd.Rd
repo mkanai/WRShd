@@ -16,13 +16,13 @@ qcomhd(x, y, q = c(0.1, 0.25, 0.5, 0.75, 0.9), nboot = 2000,
 
 \item{nboot}{a number of bootstraps}
 
-\item{plotit}{}
+\item{plotit}{a logical indicating whether plotting the result}
 
-\item{SEED}{}
+\item{SEED}{a logical indicating whether the seed should be set}
 
-\item{xlab}{}
+\item{xlab}{a string of x-axis label}
 
-\item{ylab}{}
+\item{ylab}{a string of y-axis label}
 
 \item{alpha}{a significance level}
 

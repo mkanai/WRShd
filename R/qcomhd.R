@@ -4,10 +4,10 @@
 #' @param y a numeric \code{vector}
 #' @param q a desired quantile
 #' @param nboot a number of bootstraps
-#' @param plotit 
-#' @param SEED
-#' @param xlab
-#' @param ylab
+#' @param plotit a logical indicating whether plotting the result
+#' @param SEED a logical indicating whether the seed should be set
+#' @param xlab a string of x-axis label
+#' @param ylab a string of y-axis label
 #' @param alpha a significance level
 #' @param cores a number of cores used for computation
 #' @export
