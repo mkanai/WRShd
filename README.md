@@ -1,4 +1,4 @@
-# WRShd
+# WRShd [![Build Status](https://travis-ci.org/mkanai/WRShd.svg?branch=master)](https://travis-ci.org/mkanai/WRShd)
 An Experimental Refactor of the Harrell-Davis Estimate Functions from R. R. Wilcox' Robust Statistics Package `WRS` https://github.com/nicebread/WRS
 
 ## Motivation
