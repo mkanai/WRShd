@@ -1,4 +1,4 @@
-Package: WRS2
+Package: WRShd
 Type: Package
 Title: An Experimental Refactor of R. R. Wilcox' Robust Statistics Functions "WRS"
 Version: 0.1

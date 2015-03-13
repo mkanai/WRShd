@@ -10,7 +10,7 @@
 #' @author Masahiro Kanai
 #' @export
 
-hdci <- function(x, q = .5, alpha = .05, nboot = 100, SEED = TRUE, pr = TRUE) {
+hdci <- function(x, q = .5, alpha = .05, nboot = 100, SEED = TRUE, pr = TRUE, cores = 1) {
     if(SEED)set.seed(2)
     if(alpha != .05) {stop("Use the function qcipb. Generally works well even when alpha is not equal to .05")}
     x <- .na.omit(x)

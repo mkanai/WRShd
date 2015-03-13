@@ -6,7 +6,7 @@
 #' @param x a numeric \code{vector}
 #' @return a numeric vector w/o NAs
 .na.omit <- function(x) {
-    .Call('WRS2_na_omit', PACKAGE = 'WRS2', x)
+    .Call('WRShd_na_omit', PACKAGE = 'WRShd', x)
 }
 
 #' Compute the Harrell-Davis estimate of the qth quantile
@@ -16,7 +16,7 @@
 #' @param cores a number of cores used
 #' @return the Harrell-Davis estimate of the \code{q}-th quantile of \code{x}
 hd <- function(x, q, cores = 1L) {
-    .Call('WRS2_hd', PACKAGE = 'WRS2', x, q, cores)
+    .Call('WRShd_hd', PACKAGE = 'WRShd', x, q, cores)
 }
 
 #' Compute a bootstrap standard error of the Harrell-Davis estimate of the qth quantile
@@ -27,7 +27,7 @@ hd <- function(x, q, cores = 1L) {
 #' @param cores a number of cores used
 #' @return the standard error of the Harrell-Davis estimate of the qth quantile
 hdseb <- function(x, q = 0.5, nboot = 100L, cores = 1L) {
-    .Call('WRS2_hdseb', PACKAGE = 'WRS2', x, q, nboot, cores)
+    .Call('WRShd_hdseb', PACKAGE = 'WRShd', x, q, nboot, cores)
 }
 
 #' Compute a bootstrap confidence interval for the Harrell-Davis estimate of the qth quantile
@@ -40,10 +40,10 @@ hdseb <- function(x, q = 0.5, nboot = 100L, cores = 1L) {
 #' @param cores a number of cores used
 #' @return the confidence inteval
 hdpb <- function(x, q, alpha = 0.05, nboot = 2000L, nv = 0, cores = 1L) {
-    .Call('WRS2_hdpb', PACKAGE = 'WRS2', x, q, alpha, nboot, nv, cores)
+    .Call('WRShd_hdpb', PACKAGE = 'WRShd', x, q, alpha, nboot, nv, cores)
 }
 
 .qcom.sub <- function(x, y, q, alpha = 0.05, nboot = 2000L, cores = 1L) {
-    .Call('WRS2_qcom_sub', PACKAGE = 'WRS2', x, y, q, alpha, nboot, cores)
+    .Call('WRShd_qcom_sub', PACKAGE = 'WRShd', x, y, q, alpha, nboot, cores)
 }
 

@@ -1,7 +1,7 @@
-#' WRS2
+#' WRShd
 #' 
 #' Experimental refactor of WRS
-#' @name WRS2
+#' @name WRShd
 #' @docType package
 #' @import Rcpp RcppArmadillo
 NULL

@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // na_omit
 NumericVector na_omit(NumericVector x);
-RcppExport SEXP WRS2_na_omit(SEXP xSEXP) {
+RcppExport SEXP WRShd_na_omit(SEXP xSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -23,7 +23,7 @@ END_RCPP
 }
 // hd
 double hd(NumericVector x, double q, int cores = 1);
-RcppExport SEXP WRS2_hd(SEXP xSEXP, SEXP qSEXP, SEXP coresSEXP) {
+RcppExport SEXP WRShd_hd(SEXP xSEXP, SEXP qSEXP, SEXP coresSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -40,7 +40,7 @@ END_RCPP
 }
 // hdseb
 double hdseb(NumericVector x, double q = 0.5, int nboot = 100, int cores = 1);
-RcppExport SEXP WRS2_hdseb(SEXP xSEXP, SEXP qSEXP, SEXP nbootSEXP, SEXP coresSEXP) {
+RcppExport SEXP WRShd_hdseb(SEXP xSEXP, SEXP qSEXP, SEXP nbootSEXP, SEXP coresSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -58,7 +58,7 @@ END_RCPP
 }
 // hdpb
 List hdpb(NumericVector x, double q, double alpha = 0.05, int nboot = 2000, double nv = 0, int cores = 1);
-RcppExport SEXP WRS2_hdpb(SEXP xSEXP, SEXP qSEXP, SEXP alphaSEXP, SEXP nbootSEXP, SEXP nvSEXP, SEXP coresSEXP) {
+RcppExport SEXP WRShd_hdpb(SEXP xSEXP, SEXP qSEXP, SEXP alphaSEXP, SEXP nbootSEXP, SEXP nvSEXP, SEXP coresSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
@@ -78,7 +78,7 @@ END_RCPP
 }
 // qcom_sub
 List qcom_sub(NumericVector x, NumericVector y, double q, double alpha = 0.05, int nboot = 2000, int cores = 1);
-RcppExport SEXP WRS2_qcom_sub(SEXP xSEXP, SEXP ySEXP, SEXP qSEXP, SEXP alphaSEXP, SEXP nbootSEXP, SEXP coresSEXP) {
+RcppExport SEXP WRShd_qcom_sub(SEXP xSEXP, SEXP ySEXP, SEXP qSEXP, SEXP alphaSEXP, SEXP nbootSEXP, SEXP coresSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {

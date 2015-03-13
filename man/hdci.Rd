@@ -3,7 +3,8 @@
 \alias{hdci}
 \title{Compute a standard error of the Harrell-Davis of the qth quantile}
 \usage{
-hdci(x, q = 0.5, alpha = 0.05, nboot = 100, SEED = TRUE, pr = TRUE)
+hdci(x, q = 0.5, alpha = 0.05, nboot = 100, SEED = TRUE, pr = TRUE,
+  cores = 1)
 }
 \arguments{
 \item{x}{a numeric \code{vector}}
