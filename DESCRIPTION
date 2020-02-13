@@ -4,8 +4,8 @@ Title: An Experimental Refactor of the Harrell-Davis Estimate Functions from R.
     R. Wilcox' Robust Statistics Package "WRS"
 Version: 0.1
 Date: 2015-03-12
-Author: Masahiro Kanai, Rand R. Wilcox, Felix Schönbrodt
-Maintainer: Masahiro Kanai <m.kanai@keio.jp>
+Author: Masahiro Kanai, Rand R. Wilcox, Felix Schonbrodt
+Maintainer: Masahiro Kanai <mkanai@broadinstitute.org>
 Description: This package is an experimental refactored version of the "WRS"
     package, which implements R. R. Wilcox' the robust statistics functions.
     The package currently focuses on implementing functions related to the
