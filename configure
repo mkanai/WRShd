@@ -1828,6 +1828,8 @@ fi
 ## Use R to set CXX and CXXFLAGS
 CXX=$(${R_HOME}/bin/R CMD config CXX)
 CXXFLAGS=$("${R_HOME}/bin/R" CMD config CXXFLAGS)
+CPPFLAGS=$("${R_HOME}/bin/R" CMD config CPPFLAGS)
+LDFLAGS=$("${R_HOME}/bin/R" CMD config LDFLAGS)
 
 ## We are using C++
 ac_ext=cpp

@@ -1,5 +1,5 @@
 #                                               -*- Autoconf -*-
-# SusieXP configure.ac
+# WRShd configure.ac
 # Originally from:
 # https://raw.githubusercontent.com/USCCANA/netdiffuseR/master/configure.ac
 #
@@ -18,6 +18,8 @@ fi
 ## Use R to set CXX and CXXFLAGS
 CXX=$(${R_HOME}/bin/R CMD config CXX)
 CXXFLAGS=$("${R_HOME}/bin/R" CMD config CXXFLAGS)
+CPPFLAGS=$("${R_HOME}/bin/R" CMD config CPPFLAGS)
+LDFLAGS=$("${R_HOME}/bin/R" CMD config LDFLAGS)
 
 ## We are using C++
 AC_LANG(C++)
